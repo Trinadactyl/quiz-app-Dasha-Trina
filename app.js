@@ -1,33 +1,57 @@
 'use strict';
 const store = {
-  // 5 or more questions are required
   questions: [
     {
-      qustion:,
-      answers:[],
-      correctAnswer:
+      qustion: 'Who was the first female designer?',
+      answers:[
+        'Jennifer Aniston',
+        'Coco Chanel',
+        'Ruth Bader Ginsberg',
+        'Hillary Clinton',
+      ],
+      correctAnswer:''
     },
     {
-      question:,
-      answers:[],
-      correctAnswer:
+      question: 'Who is a famed shoe designer featured in Sex and the City?',
+      answers:[
+        'Christian Lacroix',
+        'John Leguizamo',
+        'Manolo Blahnik',
+        'Brad Pitt',
+      ],
+      correctAnswer:''
+    },
+    {         //includes photo of specific hat
+      question:'What type of hat is this?',
+      answers:[
+        'Flapper',
+        'Dorky hat',
+        'Sombrero',
+        'Cowboy hat'
+      ],
+      correctAnswer:''
     },
     {
-      question:,
-      answers:[],
-      correctAnswer:
+      question: 'What shoe designer created the red soled shoe?',
+      answers:[
+        'Christian Louboutin',
+        'Jonathan Taylor Thomas',
+        'Steven Tyler',
+        'Gene Simmons'  
+      ],
+      correctAnswer:''
     },
     {
-      question:,
-      answers:[],
-      correctAnswer:
-    },
-    {
-      question:,
-      answers:[],
-      correctAnswer:
+      question: 'What is widely considered the fashion capital of the world?',
+      answers:[
+        'Juneau, Alaska',
+        'Mexico City',
+        'Paris, France',
+        'North Siberia, Russia'
+      ],
+      correctAnswer:''
     }
-  ]
+  ],
   quizStarted: false,
   questionNumber: 0,
   score: 0
