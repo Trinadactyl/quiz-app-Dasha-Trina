@@ -1,5 +1,5 @@
 'use strict';
-const store = {
+const STORE = {
   questions: [
     {
       qustion: 'Who was the first female designer?',
@@ -75,8 +75,21 @@ const store = {
  */
 
 /********** TEMPLATE GENERATION FUNCTIONS **********/
-
 // These functions return HTML templates 
+
+function generateAnswerList(){
+  //generates HTML based on data
+}
+
+function renderQuestionText(){
+  //Reads STORE, calls generators and adds HTML to DOM
+}
+
+function handleAnswersSubmitted(){
+  //get user input, update STORE and call renderers
+}
+
+
 
 /********** RENDER FUNCTION(S) **********/
 
