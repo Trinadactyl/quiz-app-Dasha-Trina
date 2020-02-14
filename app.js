@@ -98,7 +98,6 @@ function generateAnswersHtml() {
   return answersHtml;
 }
 
-//lost on the below
 function generateQuestionHtml() {
   let question = STORE.questions[STORE.questionNumber];
   return `
@@ -121,17 +120,18 @@ function generateAnswerList(answers) {
 
 // Rendering functions
 function renderQuestionText() {
-  //changes to the html go here
+  let html = "";
+  if //next button is clicked
+  return html = generateQuestionHtml //should we give questions different names
+  ${question.question} + 1; //is this right?
 }
-
-function generateResultsScreen() {}
 
 /* all purpose render function that will conditionally
 render the page based upon the state of the STORE*/
 
 function render() {
   let html = "";
-  console.log(STORE.quizStarted, STORE.questionNumber);
+  //console.log(STORE.quizStarted, STORE.questionNumber);
 
   if (STORE.quizStarted === false) {
     $("main").html(generateStartScreenHtml());
@@ -157,7 +157,8 @@ function handleStartClick() {
 function handleNextQuestion() {
   //this is where we can write which question to show
   $("body").on("click", "#next-question-btn", event => {
-    STORE.questions;
+    //event is moving on to the next page
+    STORE.questionNumber < STORE.questions.length;
     render();
   });
 }
