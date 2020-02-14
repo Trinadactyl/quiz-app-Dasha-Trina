@@ -77,24 +77,84 @@ const STORE = {
 /********** TEMPLATE GENERATION FUNCTIONS **********/
 // These functions return HTML templates 
 
-function generateAnswerList(){
-  //generates HTML based on data
+function startPage(){
+  //beginning of quiz here
+  //start button is here and triggers clickStart()
+  
 }
 
-function renderQuestionText(){
-  //Reads STORE, calls generators and adds HTML to DOM
+function questionPage(){
+  //question and answer choices
 }
 
-function handleAnswersSubmitted(){
-  //get user input, update STORE and call renderers
+function rightAnswerPage(){
+  // informs user that answer is correct
+  //continue button
 }
 
+function wrongAnswerPage(){
+  //informs user that answer is wrong
+  //corect answer given
+  //continue button
+}
 
+function finalPage(){
+  //You're done
+  //click to restart --> restart()
+}
 
 /********** RENDER FUNCTION(S) **********/
-
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
 
-/********** EVENT HANDLER FUNCTIONS **********/
+function quizStarted(){
+  //when clickStart() is called (aka user clicks start),
+  //quiz-started value changes to true
+}
 
+function renderAnswers(){
+  //when answer is chosen,
+  //right or wrong answer page is displayed
+}
+
+function renderQuestions(){
+  //when start button or continue button clicked,
+  //next question is rendered
+  //click to --> chooseAnswer()
+}
+
+function questionNumber(){
+  //question number value increments to show progress
+}
+
+function score(){
+  //score value increments when questons are answered correctly
+}
+
+/********** EVENT HANDLER FUNCTIONS **********/
 // These functions handle events (submit, click, etc)
+
+function clickStart(){
+  //called when start button is clicked then...
+  //quizStarted() is called,
+  //renderQuestions() is called
+  //questionNumber()---> 0 to 1 
+}
+
+function chooseAnswer(){
+  //called when answer is chosen
+  //is answer right or wrong?                  (does if/else go here??)
+  //renderAnswers() is called
+  //if question is right score() gets called   (another if/else here?)
+}
+
+function clickContinue(){
+  //feedback is given, then user will click continue
+  //renderQuestion() is called 
+  //question number is also called
+}
+
+function restart(){
+  //on last page of quiz, user can choose to restart quiz
+  // click restart button....
+  //......startPage() 
+}
