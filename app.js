@@ -77,13 +77,12 @@ function generateQuestionNumberandScoreHtml() {
   </ul>
 `;
 }
-//do i do the above for every question?? change the score each time?
 
 function generateAnswersHtml() {
+  //
   const answersArray = STORE.questions[STORE.currentQuestion].answers;
-  let answersHtml = '';
+  let answersHtml = "";
   let i = 0;
-  //console.log("answers");
 
   answersArray.forEach(answer => {
     answersHtml += `
@@ -96,64 +95,51 @@ function generateAnswersHtml() {
     i++;
   });
   return answersHtml;
+}
 
 function generateQuestionHtml() {
-  let currentQuestion = STORE.questions[STORE.currentQuestion];
+  currentQuestion = STORE.questions[STORE.currentQuestion];
   return `
-  <form id="question-form" class="question-form">
-  <fieldset>
-  <div class="question">
-  <legend> {currentQuestion.question} </legend>
-  </div>
-  <div class="options">
-  <div class="answers">
-  ${generateAnswersHtml()}
-  </div>
-  </div>
+  
   <button type="submit" id="submit-answer-btn" tabindex="5">Submit</button>
   <p>  
   <button type="button" id="next-question-btn" tabindex="6">Next Question</button>
   </p>
-  </fieldset>
-  </form>
+  
   `;
 }
 
-function generateResultsScreen (){
+function generateResultsScreen() {
   return `
-  <div class="results">
-  <form id="js-restart-quiz">
-  <fieldset>
-  <div class="row"
-  <div class="col-12">
-  <legend>You Scored: ${STORE.score}/${STORE.questions.length}</legend>
-  </div>
-  </div>
-  
-  <div class="row">
-  <div class="col-12">
-  <button type="button" id="restart">Restart Quiz</button>
-  </div>
-  </div>`
-
+    <div class="results">
+    <form id="js-restart-quiz">
+    <fieldset>
+    <div class="row"
+    <div class="col-12">
+    <legend>You Scored: ${STORE.score}/${STORE.questions.length}</legend>
+    </div>
+    </div>
+    
+    <div class="row">
+    <div class="col-12">
+    <button type="button" id="restart">Restart Quiz</button>
+    </div>
+    </div>
+    `;
 }
 
-//@param {string} answerStatus
-
-
-function generateFeedbackHtml(answerStatus){
+function generateFeedbackHtml(answerStatus) {
   let correctAnswer = STORE.questions[STORE.currentQuestion].correctAnswer;
-  let html = '';
-  if (answerStatus === 'correct'){
+  let html = "";
+  if (answerStatus === "correct") {
     html = `
-    <div class="right-answer">That is right!</div>
-    `;
-  }
-  else if (answerStatus === 'incorrect'){
+      <div class="right-answer">That is right!</div>
+      `;
+  } else answerStatus === "incorrect";
+  {
     html = `
-    <div class="wrong-answer">Sorry, that is wrong!</div>
-    `;
-  
+      <div class="wrong-answer">Sorry, that is wrong!</div>
+      `;
   }
 }
 
@@ -161,8 +147,8 @@ function generateAnswerList(answers) {
   //template goes here
 }
 
+//Rendering functions
 
-// Rendering functions
 function renderQuestionText() {
   let html = "";
 
@@ -172,7 +158,7 @@ function renderQuestionText() {
 }
 
 /* all purpose render function that will conditionally
-render the page based upon the state of the STORE*/
+  render the page based upon the state of the STORE*/
 
 function render() {
   let html = "";
@@ -211,13 +197,13 @@ function handleNextQuestion() {
 function showResults() {
   //you got it right! oh no its wrong you suck
   const answerContainers = STORE.querySelectorAll(".answers");
-  console.log("results");
 }
 
 //handles the
 function handleAnswerSubmitted() {
-  $("main").on("submit", "#question-form", function (event) {
+  $("main").on("submit", "#question-form", function(event) {
     event.preventDefault();
+
     // Retrieve answer identifier of user-checked radio btn
     // Perform check: User answer === Correct answer?
     // Update STORE and render appropriate section
@@ -232,17 +218,3 @@ function handleQuizApp() {
 }
 
 $(handleQuizApp);
-
-/**
- *
- * Technical requirements:
- *
- * Your app should include a render() function, that regenerates the view each time the store is updated.
- * See your course material, consult your instructor, and reference the slides for more details.
- *
- * NO additional HTML elements should be added to the index.html file.
- *
- * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
- *
- * SEE BELOW FOR THE CATEGORIES OF THE TYPES OF FUNCTIONS YOU WILL BE CREATING 👇
-*/
