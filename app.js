@@ -80,50 +80,95 @@ function generateQuestionNumberandScoreHtml() {
 //do i do the above for every question?? change the score each time?
 
 function generateAnswersHtml() {
-  let answersHtml = "";
-  //this is only a piece, something is missing
-  //what question are we on?
-  //STORE.questionNumber
+  const answersArray = STORE.questions[STORE.currentQuestion].answers;
+  let answersHtml = '';
+  let i = 0;
+  //console.log("answers");
 
-  answersArray.forEach((answer, i) => {
+  answersArray.forEach(answer => {
     answersHtml += `
     <div id="option-container-${i}">
-    <input type="radio" name="options" id="option${i + 1}" value= "${answer}
-    " tabindex ="${i + 1}" required>
+    <input type="radio" name="options" id="option${i + 1}" value= "${answer}"
+    tabindex ="${i + 1}" required>
     <label for="option${i + 1}"> ${answer}</label>
     </div>
     `;
+    i++;
   });
-
   return answersHtml;
-}
 
 function generateQuestionHtml() {
-  let question = STORE.questions[STORE.questionNumber];
+  let currentQuestion = STORE.questions[STORE.currentQuestion];
   return `
-  <div class="question">${question.question}
+  <form id="question-form" class="question-form">
+  <fieldset>
+  <div class="question">
+  <legend> {currentQuestion.question} </legend>
+  </div>
+  <div class="options">
+  <div class="answers">
+  ${generateAnswersHtml()}
+  </div>
+  </div>
+  <button type="submit" id="submit-answer-btn" tabindex="5">Submit</button>
   <p>  
-  <button type="button" id="next-question-btn">Next Question</button>
+  <button type="button" id="next-question-btn" tabindex="6">Next Question</button>
   </p>
-  </div>`;
-  // what question are we on
-  // STORE.questionNumber
-  // how do we grab that question? conditionals
+  </fieldset>
+  </form>
+  `;
+}
 
-  // how can we then display that questions title
-  //return `<div class="question">${question.question}</div>`;
+function generateResultsScreen (){
+  return `
+  <div class="results">
+  <form id="js-restart-quiz">
+  <fieldset>
+  <div class="row"
+  <div class="col-12">
+  <legend>You Scored: ${STORE.score}/${STORE.questions.length}</legend>
+  </div>
+  </div>
+  
+  <div class="row">
+  <div class="col-12">
+  <button type="button" id="restart">Restart Quiz</button>
+  </div>
+  </div>`
+
+}
+
+//@param {string} answerStatus
+
+
+function generateFeedbackHtml(answerStatus){
+  let correctAnswer = STORE.questions[STORE.currentQuestion].correctAnswer;
+  let html = '';
+  if (answerStatus === 'correct'){
+    html = `
+    <div class="right-answer">That is right!</div>
+    `;
+  }
+  else if (answerStatus === 'incorrect'){
+    html = `
+    <div class="wrong-answer">Sorry, that is wrong!</div>
+    `;
+  
+  }
 }
 
 function generateAnswerList(answers) {
   //template goes here
 }
 
+
 // Rendering functions
 function renderQuestionText() {
   let html = "";
-  if //next button is clicked
-  return html = generateQuestionHtml //should we give questions different names
-  ${question.question} + 1; //is this right?
+
+  //if //next button is clicked
+  //return html = generateQuestionHtml //should we give questions different names
+  //${question.question} + 1; //is this right?
 }
 
 /* all purpose render function that will conditionally
@@ -149,14 +194,14 @@ function render() {
 
 function handleStartClick() {
   $("main").on("click", "#start", function(event) {
-    //console.log("started");
+    console.log("started");
     STORE.quizStarted = true;
     render();
   });
 }
 function handleNextQuestion() {
   //this is where we can write which question to show
-  $("body").on("click", "#next-question-btn", event => {
+  $("main").on("click", "#next-question-btn", event => {
     //event is moving on to the next page
     STORE.questionNumber < STORE.questions.length;
     render();
@@ -171,7 +216,8 @@ function showResults() {
 
 //handles the
 function handleAnswerSubmitted() {
-  $("main").on("submit", "#question-form", () => {
+  $("main").on("submit", "#question-form", function (event) {
+    event.preventDefault();
     // Retrieve answer identifier of user-checked radio btn
     // Perform check: User answer === Correct answer?
     // Update STORE and render appropriate section
@@ -199,5 +245,4 @@ $(handleQuizApp);
  * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
  *
  * SEE BELOW FOR THE CATEGORIES OF THE TYPES OF FUNCTIONS YOU WILL BE CREATING 👇
- *
- */
+*/
