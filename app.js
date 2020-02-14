@@ -77,11 +77,13 @@ function generateQuestionNumberandScoreHtml() {
   </ul>
 `;
 }
-//do i do the above for every question??
+//do i do the above for every question?? change the score each time?
 
 function generateAnswersHtml() {
   let answersHtml = "";
   //this is only a piece, something is missing
+  //what question are we on?
+  //STORE.questionNumber
 
   answersArray.forEach((answer, i) => {
     answersHtml += `
@@ -98,12 +100,19 @@ function generateAnswersHtml() {
 
 //lost on the below
 function generateQuestionHtml() {
+  let question = STORE.questions[STORE.questionNumber];
+  return `
+  <div class="question">${question.question}
+  <p>  
+  <button type="button" id="next-question-btn">Next Question</button>
+  </p>
+  </div>`;
   // what question are we on
   // STORE.questionNumber
-  // how do we grab that question?
-  let question = STORE.questions[STORE.questionNumber];
+  // how do we grab that question? conditionals
+
   // how can we then display that questions title
-  return `<div class="question">${question.question}</div>`;
+  //return `<div class="question">${question.question}</div>`;
 }
 
 function generateAnswerList(answers) {
@@ -128,7 +137,6 @@ function render() {
     $("main").html(generateStartScreenHtml());
     return;
   } else if (STORE.questionNumber < STORE.questions.length) {
-    console.log("here");
     html = generateQuestionNumberandScoreHtml();
     html += generateQuestionHtml();
     $("main").html(html);
@@ -141,15 +149,23 @@ function render() {
 
 function handleStartClick() {
   $("main").on("click", "#start", function(event) {
-    console.log("started");
+    //console.log("started");
     STORE.quizStarted = true;
     render();
   });
 }
 function handleNextQuestion() {
+  //this is where we can write which question to show
   $("body").on("click", "#next-question-btn", event => {
+    STORE.questions;
     render();
   });
+}
+
+function showResults() {
+  //you got it right! oh no its wrong you suck
+  const answerContainers = STORE.querySelectorAll(".answers");
+  console.log("results");
 }
 
 //handles the
