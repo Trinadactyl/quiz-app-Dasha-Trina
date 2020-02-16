@@ -1,52 +1,50 @@
-/**
- * Example store structure
- */
+'use strict';
 const STORE = {
   questions: [
     {
-      question: "Who was the first female designer?",
+      question: 'Who was the first female designer?',
       answers: [
-        "Jennifer anniston",
-        "Coco Chanel",
-        "Ruth Bader Ginsberg",
-        "Hillary Clinton"
+        'Jennifer Aniston',
+        'Coco Chanel',
+        'Ruth Bader Ginsberg',
+        'Hillary Clinton'
       ],
-      correctAnswer: "Coco Chanel"
+      correctAnswer: 'Coco Chanel'
     },
     {
-      question: "Who is a famed shoe designer featured in Sex and the City?",
+      question: 'Who is a famed shoe designer featured in Sex and the City?',
       answers: [
-        "Christian Lacroix",
-        "John Leguizamo",
-        "Manolo Blahnik",
-        "Brad Pitt"
+        'Christian Lacroix',
+        'John Leguizamo',
+        'Manolo Blahnik',
+        'Brad Pitt'
       ],
-      correctAnswer: "Manolo Blahnik"
+      correctAnswer: 'Manolo Blahnik'
     },
     {
-      question: "What type of hat is this?", //img here??
-      answers: ["Flapper", "Dorky hat", "Postman", "Cowboyhat"],
-      correctAnswer: "Cowboy hat"
+      question: 'What type of hat is this?', //img here??
+      answers: ['Flapper', 'Dorky hat', 'Postman', 'Cowboyhat'],
+      correctAnswer: 'Cowboy hat'
     },
     {
-      question: "What shoe designer created the red soled shoe?",
+      question: 'What shoe designer created the red soled shoe?',
       answers: [
-        "Christian Louboutin",
-        "Jonathan Taylor Thomas",
-        "Steven Tyler",
-        "Gene Simmons"
+        'Christian Louboutin',
+        'Jonathan Taylor Thomas',
+        'Steven Tyler',
+        'Gene Simmons'
       ],
-      correctAnswer: "Christian Louboutin"
+      correctAnswer: 'Christian Louboutin'
     },
     {
-      question: "What is widely considered the fashion capital of the world?",
+      question: 'What is widely considered the fashion capital of the world?',
       answers: [
-        "Juneau, Alaska",
-        "Mexico City",
-        "Paris, France",
-        "North Siberia, Russia"
+        'Juneau, Alaska',
+        'Mexico City',
+        'Paris, France',
+        'North Siberia, Russia'
       ],
-      correctAnswer: "Paris, France"
+      correctAnswer: 'Paris, France'
     }
   ],
   quizStarted: false,
@@ -79,9 +77,9 @@ function generateQuestionNumberandScoreHtml() {
 }
 
 function generateAnswersHtml() {
-  //
+
   const answersArray = STORE.questions[STORE.currentQuestion].answers;
-  let answersHtml = "";
+  let answersHtml = '';
   let i = 0;
 
   answersArray.forEach(answer => {
@@ -98,7 +96,7 @@ function generateAnswersHtml() {
 }
 
 function generateQuestionHtml() {
-  currentQuestion = STORE.questions[STORE.currentQuestion];
+  let currentQuestion = STORE.questions[STORE.questionNumber];
   return `
   
   <button type="submit" id="submit-answer-btn" tabindex="5">Submit</button>
@@ -130,12 +128,12 @@ function generateResultsScreen() {
 
 function generateFeedbackHtml(answerStatus) {
   let correctAnswer = STORE.questions[STORE.currentQuestion].correctAnswer;
-  let html = "";
-  if (answerStatus === "correct") {
+  let html = '';
+  if (answerStatus === 'correct') {
     html = `
       <div class="right-answer">That is right!</div>
       `;
-  } else answerStatus === "incorrect";
+  } else answerStatus === 'incorrect';
   {
     html = `
       <div class="wrong-answer">Sorry, that is wrong!</div>
@@ -150,7 +148,7 @@ function generateAnswerList(answers) {
 //Rendering functions
 
 function renderQuestionText() {
-  let html = "";
+  let html = '';
 
   //if //next button is clicked
   //return html = generateQuestionHtml //should we give questions different names
@@ -161,33 +159,33 @@ function renderQuestionText() {
   render the page based upon the state of the STORE*/
 
 function render() {
-  let html = "";
+  let html = '';
   //console.log(STORE.quizStarted, STORE.questionNumber);
 
   if (STORE.quizStarted === false) {
-    $("main").html(generateStartScreenHtml());
+    $('main').html(generateStartScreenHtml());
     return;
   } else if (STORE.questionNumber < STORE.questions.length) {
     html = generateQuestionNumberandScoreHtml();
     html += generateQuestionHtml();
-    $("main").html(html);
+    $('main').html(html);
   } else {
-    $("main").html(generateResultsScreen());
+    $('main').html(generateResultsScreen());
   }
 }
 
 // Event handlers
 
 function handleStartClick() {
-  $("main").on("click", "#start", function(event) {
-    console.log("started");
+  $('main').on('click', '#start', function(event) {
+    console.log('started');
     STORE.quizStarted = true;
     render();
   });
 }
 function handleNextQuestion() {
   //this is where we can write which question to show
-  $("main").on("click", "#next-question-btn", event => {
+  $('main').on('click', '#next-question-btn', event => {
     //event is moving on to the next page
     STORE.questionNumber < STORE.questions.length;
     render();
@@ -196,12 +194,12 @@ function handleNextQuestion() {
 
 function showResults() {
   //you got it right! oh no its wrong you suck
-  const answerContainers = STORE.querySelectorAll(".answers");
+  const answerContainers = STORE.querySelectorAll('.answers');
 }
 
 //handles the
 function handleAnswerSubmitted() {
-  $("main").on("submit", "#question-form", function(event) {
+  $('main').on('submit', '#question-form', function(event) {
     event.preventDefault();
 
     // Retrieve answer identifier of user-checked radio btn
