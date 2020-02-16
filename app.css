@@ -16,7 +16,33 @@
 #start {
   background-color: #bd96a5;
 }
+#next-question-button {
+  background-color: #bd96a5;
+}
+
+#submit-button {
+  background-color: #bd96a5;
+}
 
 ul {
   list-style: none;
+}
+
+#question-title {
+  text-align: center;
+}
+#question-form {
+  margin-left: 150px;
+  margin-right: 150px;
+  margin-top: 0px;
+
+  border-style: dotted;
+  border-color: #7e646e;
+}
+field-set {
+  border-style: none;
+}
+
+.question {
+  padding: 0;
 }

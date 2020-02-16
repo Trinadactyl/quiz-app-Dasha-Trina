@@ -4,14 +4,14 @@
 const STORE = {
   questions: [
     {
-      question: "Who was the first female designer?",
+      question: "Who was the first female fashion designer?",
       answers: [
         "Jennifer anniston",
         "Coco Chanel",
         "Ruth Bader Ginsberg",
         "Hillary Clinton"
       ],
-      correctAnswer: "Coco Chanel"
+      correctAnswer: 1
     },
     {
       question: "Who is a famed shoe designer featured in Sex and the City?",
@@ -21,12 +21,12 @@ const STORE = {
         "Manolo Blahnik",
         "Brad Pitt"
       ],
-      correctAnswer: "Manolo Blahnik"
+      correctAnswer: 2
     },
     {
-      question: "What type of hat is this?", //img here??
-      answers: ["Flapper", "Dorky hat", "Postman", "Cowboyhat"],
-      correctAnswer: "Cowboy hat"
+      question: "What type of hat do cowboys typically wear?",
+      answers: ["Flapper", "Dorky hat", "Postman", "Cowboy hat"],
+      correctAnswer: 3
     },
     {
       question: "What shoe designer created the red soled shoe?",
@@ -36,7 +36,7 @@ const STORE = {
         "Steven Tyler",
         "Gene Simmons"
       ],
-      correctAnswer: "Christian Louboutin"
+      correctAnswer: 0
     },
     {
       question: "What is widely considered the fashion capital of the world?",
@@ -46,7 +46,7 @@ const STORE = {
         "Paris, France",
         "North Siberia, Russia"
       ],
-      correctAnswer: "Paris, France"
+      correctAnswer: 2
     }
   ],
   quizStarted: false,
@@ -79,90 +79,137 @@ function generateQuestionNumberandScoreHtml() {
 }
 
 function generateAnswersHtml() {
-  //
-  const answersArray = STORE.questions[STORE.currentQuestion].answers;
+  const answersArray = STORE.questions[STORE.questionNumber].answers;
   let answersHtml = "";
   let i = 0;
 
-  answersArray.forEach(answer => {
+  answersArray.forEach((answer, i) => {
     answersHtml += `
     <div id="option-container-${i}">
-    <input type="radio" name="options" id="option${i + 1}" value= "${answer}"
-    tabindex ="${i + 1}" required>
+    <input type="radio" name="options" id="option${i + 1}" value= "${answer}
+    " tabindex ="${i + 1}" required>
     <label for="option${i + 1}"> ${answer}</label>
     </div>
     `;
-    i++;
   });
+
   return answersHtml;
 }
 
 function generateQuestionHtml() {
-  currentQuestion = STORE.questions[STORE.currentQuestion];
+  // what question are we on
+  // STORE.questionNumber
+  // how do we grab that question?
+  let currentQuestion = STORE.questions[STORE.questionNumber];
+  //$("main").text(STORE.questionTitle);
   return `
-  
-  <button type="submit" id="submit-answer-btn" tabindex="5">Submit</button>
-  <p>  
-  <button type="button" id="next-question-btn" tabindex="6">Next Question</button>
+  <form id="question-form" class="question-form">
+  <fieldset>
+  <div class="question">
+  <h2>${currentQuestion.question}</h2>
+  </div>
+  <div class="answers">
+  ${generateAnswersHtml()}
+  </div>
+  <p>
+  <button type="submit-button" id="submit-button"
+  tabindex="5">Submit</button>
+  <button type="next-question-button" id="next-question-button"
+  tabindex="6">Next</button>
   </p>
-  
+  </fieldset>
+  </form>
+  `;
+}
+
+function generateAnswerList(answers) {
+  return `
+  <div><ul>
+    <li>answer1</li>
+    <li>answer2</li>
+    <li>answer3</li>
+    <li>answer4</li>
+  </ul>
+  </div>
   `;
 }
 
 function generateResultsScreen() {
   return `
-    <div class="results">
-    <form id="js-restart-quiz">
-    <fieldset>
-    <div class="row"
-    <div class="col-12">
-    <legend>You Scored: ${STORE.score}/${STORE.questions.length}</legend>
-    </div>
-    </div>
-    
-    <div class="row">
-    <div class="col-12">
-    <button type="button" id="restart">Restart Quiz</button>
-    </div>
-    </div>
-    `;
-}
+  <body background="https://www.onlinebooksreview.com/uploads/blog_images/2019/02/10_vector_fashion_girls_design_elements_set_575174.jpg">
+  <div class="results">
+  <form id="reset-quiz">
+  <fieldset>
+  <h3>You Scored:${STORE.score}/${STORE.questions.length}</h3>
+  </div>
+  <p>
+  <button type="button" id="reset">Reset Quiz</button></p>
+  </fieldset>
+  </form>
+  </body>
+  `;
+} //how come all the html isnt prettier?
 
-function generateFeedbackHtml(answerStatus) {
-  let correctAnswer = STORE.questions[STORE.currentQuestion].correctAnswer;
+function generateFeedbackHtml() {
+  let correctAnswer = STORE.questions[STORE.questionNumber].correctAnswer;
   let html = "";
   if (answerStatus === "correct") {
     html = `
-      <div class="right-answer">That is right!</div>
-      `;
+    <div class="right-answer">Correct!</div>
+    `;
+    STORE.score++;
   } else answerStatus === "incorrect";
   {
     html = `
-      <div class="wrong-answer">Sorry, that is wrong!</div>
-      `;
+    <div class="wrong-answer">Sorry! That's wrong...
+    <p><b>the correct answer is:
+    ${STORE.correctAnswer}</b></p>
+    </div>
+    `;
   }
 }
 
-function generateAnswerList(answers) {
-  //template goes here
+// Rendering functions
+function renderQuestionText() {
+  let question = STORE.questions[currentQuestion];
+  $("main").text(questionTitle);
+  $("main").html("");
+  for (var i = 0; i < STORE.question.answers.length; i++) {
+    $("main").closest(`
+    <li id="${i}">${question.answers[i]}</li>`);
+  }
 }
 
-//Rendering functions
+//when somoene clicks next, the site needs to be rendered
+//with the next question, and its title, etc.
 
-function renderQuestionText() {
-  let html = "";
+/*$("main").on("click", "next-button", function(event) {
+    STORE.question[STORE.questionNumber + 1];
+  });
+}
 
-  //if //next button is clicked
+/*let currentQuestion = STORE.questions[STORE.questionNumber];
+  $("main").text(STORE.questionTitle);
+
+  if (STORE.currentQuestion + 1)
+  $("main").text(questionTitle + 1){
+
+  });
+
+  /let html = "";
+  //if (STORE.currentQuestion + 1) {
+    //$("main").html(generateQuestionHtml());
+  }
+  //if next button is clicked
   //return html = generateQuestionHtml //should we give questions different names
-  //${question.question} + 1; //is this right?
+  //${currentQuestion.question} + 1; //is this right?
 }
 
 /* all purpose render function that will conditionally
-  render the page based upon the state of the STORE*/
+render the page based upon the state of the STORE*/
 
 function render() {
   let html = "";
-  //console.log(STORE.quizStarted, STORE.questionNumber);
 
   if (STORE.quizStarted === false) {
     $("main").html(generateStartScreenHtml());
@@ -180,41 +227,74 @@ function render() {
 
 function handleStartClick() {
   $("main").on("click", "#start", function(event) {
-    console.log("started");
+    event.preventDefault();
     STORE.quizStarted = true;
     render();
   });
 }
 function handleNextQuestion() {
-  //this is where we can write which question to show
   $("main").on("click", "#next-question-btn", event => {
-    //event is moving on to the next page
-    STORE.questionNumber < STORE.questions.length;
+    event.preventDefault();
+
+    //STORE.questionNumber++;
     render();
   });
 }
 
-function showResults() {
-  //you got it right! oh no its wrong you suck
-  const answerContainers = STORE.querySelectorAll(".answers");
-}
+//do i need a next button? submit should do the trick?
 
-//handles the
 function handleAnswerSubmitted() {
-  $("main").on("submit", "#question-form", function(event) {
+  $("main").on("click", "#submit", "#question-form", () => {
     event.preventDefault();
+    const currentQuestion = STORE.questions[STORE.currentQuestion];
 
     // Retrieve answer identifier of user-checked radio btn
+    let selectedOption = $("input[name=options]:checked").val();
+    let optionContainerId = `#option-container-${currentQuestion.answers.findIndex(
+      i => i === selectedOption
+    )}`;
     // Perform check: User answer === Correct answer?
-    // Update STORE and render appropriate section
+
+    if (selectedOption === currentQuestion.correctAnswer) {
+      STORE.score++;
+      $(optionContainerId).html(generateFeedbackHtml("correct"));
+    } else {
+      $(optionContainerId).html(generateFeedbackHtml("incorrect"));
+    }
+    STORE.questionNumber++;
+    renderQuestionText();
   });
 }
 $(handleAnswerSubmitted);
+
+function handleResetButton() {
+  $("main").on("reset", "#reset", () => {
+    resetQuiz();
+    render();
+  });
+}
 
 function handleQuizApp() {
   render();
   handleStartClick();
   handleNextQuestion();
+  handleAnswerSubmitted();
+  handleResetButton();
 }
 
 $(handleQuizApp);
+
+/**
+ *
+ * Technical requirements:
+ *
+ * Your app should include a render() function, that regenerates the view each time the store is updated.
+ * See your course material, consult your instructor, and reference the slides for more details.
+ *
+ * NO additional HTML elements should be added to the index.html file.
+ *
+ * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
+ *
+ * SEE BELOW FOR THE CATEGORIES OF THE TYPES OF FUNCTIONS YOU WILL BE CREATING 👇
+ *
+ */
