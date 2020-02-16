@@ -39,7 +39,9 @@ ul {
   border-style: dotted;
   border-color: #7e646e;
 }
-field-set {
+.fieldset {
+  display: flex;
+  justify-content: center;
   border-style: none;
 }
 

@@ -104,7 +104,7 @@ function generateQuestionHtml() {
   //$("main").text(STORE.questionTitle);
   return `
   <form id="question-form" class="question-form">
-  <fieldset>
+  <fieldset class="fieldset">
   <div class="question">
   <h2>${currentQuestion.question}</h2>
   </div>
@@ -227,16 +227,16 @@ function render() {
 
 function handleStartClick() {
   $("main").on("click", "#start", function(event) {
+    //console.log("submitted");
     event.preventDefault();
     STORE.quizStarted = true;
     render();
   });
 }
 function handleNextQuestion() {
-  $("main").on("click", "#next-question-btn", event => {
+  $("body").click("#next-question-btn", function(event) {
     event.preventDefault();
-
-    //STORE.questionNumber++;
+    STORE.questionNumber++;
     render();
   });
 }
@@ -244,8 +244,9 @@ function handleNextQuestion() {
 //do i need a next button? submit should do the trick?
 
 function handleAnswerSubmitted() {
-  $("main").on("click", "#submit", "#question-form", () => {
+  $("main").on("submit", "#question-form", function(event) {
     event.preventDefault();
+    console.log("submitted");
     const currentQuestion = STORE.questions[STORE.currentQuestion];
 
     // Retrieve answer identifier of user-checked radio btn
@@ -261,14 +262,15 @@ function handleAnswerSubmitted() {
     } else {
       $(optionContainerId).html(generateFeedbackHtml("incorrect"));
     }
-    STORE.questionNumber++;
-    renderQuestionText();
+    STORE.currentQuestion++;
+    generateQuestionHtml();
   });
 }
 $(handleAnswerSubmitted);
 
 function handleResetButton() {
   $("main").on("reset", "#reset", () => {
+    STORE.currentQuestion = 0;
     resetQuiz();
     render();
   });
