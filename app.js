@@ -227,7 +227,7 @@ function handleStartClick() {
   });
 }
 function handleNextQuestion() {
-  $('body').click('#next-question-btn', function(event) {
+  $('main').on('click','#next-question-button', function(event) {
     event.preventDefault();
     STORE.questionNumber++;
     render();
@@ -240,15 +240,15 @@ function handleAnswerSubmitted() {
   $('main').on('submit', '#question-form', function(event) {
     event.preventDefault();
     console.log('submitted');
-    const currentQuestion = STORE.questions[STORE.currentQuestion];
-
+    const currentQuestion = STORE.questions[STORE.questionNumber];
     // Retrieve answer identifier of user-checked radio btn
     let selectedOption = $('input[name=options]:checked').val();
+    console.log(selectedOption);
     let optionContainerId = `#option-container-${currentQuestion.answers.findIndex(
       i => i === selectedOption
-    )}`;
+    )}`;  
+    console.log(optionContainerId);
     // Perform check: User answer === Correct answer?
-
     if (selectedOption === currentQuestion.correctAnswer) {
       STORE.score++;
       $(optionContainerId).html(generateFeedbackHtml('correct'));
@@ -259,7 +259,7 @@ function handleAnswerSubmitted() {
     generateQuestionHtml();
   });
 }
-$(handleAnswerSubmitted);
+
 
 function handleResetButton() {
   $('main').on('reset', '#reset', () => {
