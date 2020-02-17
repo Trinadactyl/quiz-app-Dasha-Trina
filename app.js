@@ -1,50 +1,48 @@
-/**
- * Example store structure
- */
+'use strict';
 const STORE = {
   questions: [
     {
-      question: "Who was the first female fashion designer?",
+      question: 'Who was the first female fashion designer?',
       answers: [
-        "Jennifer anniston",
-        "Coco Chanel",
-        "Ruth Bader Ginsberg",
-        "Hillary Clinton"
+        'Jennifer anniston',
+        'Coco Chanel',
+        'Ruth Bader Ginsberg',
+        'Hillary Clinton'
       ],
       correctAnswer: 1
     },
     {
-      question: "Who is a famed shoe designer featured in Sex and the City?",
+      question: 'Who is a famed shoe designer featured in Sex and the City?',
       answers: [
-        "Christian Lacroix",
-        "John Leguizamo",
-        "Manolo Blahnik",
-        "Brad Pitt"
+        'Christian Lacroix',
+        'John Leguizamo',
+        'Manolo Blahnik',
+        'Brad Pitt'
       ],
       correctAnswer: 2
     },
     {
-      question: "What type of hat do cowboys typically wear?",
-      answers: ["Flapper", "Dorky hat", "Postman", "Cowboy hat"],
+      question: 'What type of hat do cowboys typically wear?',
+      answers: ['Flapper', 'Dorky hat', 'Postman', 'Cowboy hat'],
       correctAnswer: 3
     },
     {
-      question: "What shoe designer created the red soled shoe?",
+      question: 'What shoe designer created the red soled shoe?',
       answers: [
-        "Christian Louboutin",
-        "Jonathan Taylor Thomas",
-        "Steven Tyler",
-        "Gene Simmons"
+        'Christian Louboutin',
+        'Jonathan Taylor Thomas',
+        'Steven Tyler',
+        'Gene Simmons'
       ],
       correctAnswer: 0
     },
     {
-      question: "What is widely considered the fashion capital of the world?",
+      question: 'What is widely considered the fashion capital of the world?',
       answers: [
-        "Juneau, Alaska",
-        "Mexico City",
-        "Paris, France",
-        "North Siberia, Russia"
+        'Juneau, Alaska',
+        'Mexico City',
+        'Paris, France',
+        'North Siberia, Russia'
       ],
       correctAnswer: 2
     }
@@ -80,7 +78,7 @@ function generateQuestionNumberandScoreHtml() {
 
 function generateAnswersHtml() {
   const answersArray = STORE.questions[STORE.questionNumber].answers;
-  let answersHtml = "";
+  let answersHtml = '';
   let i = 0;
 
   answersArray.forEach((answer, i) => {
@@ -152,13 +150,13 @@ function generateResultsScreen() {
 
 function generateFeedbackHtml() {
   let correctAnswer = STORE.questions[STORE.questionNumber].correctAnswer;
-  let html = "";
-  if (answerStatus === "correct") {
+  let html = '';
+  if (answerStatus === 'correct') {
     html = `
     <div class="right-answer">Correct!</div>
     `;
     STORE.score++;
-  } else answerStatus === "incorrect";
+  } else answerStatus === 'incorrect';
   {
     html = `
     <div class="wrong-answer">Sorry! That's wrong...
@@ -172,10 +170,10 @@ function generateFeedbackHtml() {
 // Rendering functions
 function renderQuestionText() {
   let question = STORE.questions[currentQuestion];
-  $("main").text(questionTitle);
-  $("main").html("");
+  $('main').text(questionTitle);
+  $('main').html('');
   for (var i = 0; i < STORE.question.answers.length; i++) {
-    $("main").closest(`
+    $('main').closest(`
     <li id="${i}">${question.answers[i]}</li>`);
   }
 }
@@ -187,15 +185,11 @@ function renderQuestionText() {
     STORE.question[STORE.questionNumber + 1];
   });
 }
-
 /*let currentQuestion = STORE.questions[STORE.questionNumber];
   $("main").text(STORE.questionTitle);
-
   if (STORE.currentQuestion + 1)
   $("main").text(questionTitle + 1){
-
   });
-
   /let html = "";
   //if (STORE.currentQuestion + 1) {
     //$("main").html(generateQuestionHtml());
@@ -204,29 +198,28 @@ function renderQuestionText() {
   //return html = generateQuestionHtml //should we give questions different names
   //${currentQuestion.question} + 1; //is this right?
 }
-
 /* all purpose render function that will conditionally
 render the page based upon the state of the STORE*/
 
 function render() {
-  let html = "";
+  let html = '';
 
   if (STORE.quizStarted === false) {
-    $("main").html(generateStartScreenHtml());
+    $('main').html(generateStartScreenHtml());
     return;
   } else if (STORE.questionNumber < STORE.questions.length) {
     html = generateQuestionNumberandScoreHtml();
     html += generateQuestionHtml();
-    $("main").html(html);
+    $('main').html(html);
   } else {
-    $("main").html(generateResultsScreen());
+    $('main').html(generateResultsScreen());
   }
 }
 
 // Event handlers
 
 function handleStartClick() {
-  $("main").on("click", "#start", function(event) {
+  $('main').on('click', '#start', function(event) {
     //console.log("submitted");
     event.preventDefault();
     STORE.quizStarted = true;
@@ -234,7 +227,7 @@ function handleStartClick() {
   });
 }
 function handleNextQuestion() {
-  $("body").click("#next-question-btn", function(event) {
+  $('body').click('#next-question-btn', function(event) {
     event.preventDefault();
     STORE.questionNumber++;
     render();
@@ -244,13 +237,13 @@ function handleNextQuestion() {
 //do i need a next button? submit should do the trick?
 
 function handleAnswerSubmitted() {
-  $("main").on("submit", "#question-form", function(event) {
+  $('main').on('submit', '#question-form', function(event) {
     event.preventDefault();
-    console.log("submitted");
+    console.log('submitted');
     const currentQuestion = STORE.questions[STORE.currentQuestion];
 
     // Retrieve answer identifier of user-checked radio btn
-    let selectedOption = $("input[name=options]:checked").val();
+    let selectedOption = $('input[name=options]:checked').val();
     let optionContainerId = `#option-container-${currentQuestion.answers.findIndex(
       i => i === selectedOption
     )}`;
@@ -258,9 +251,9 @@ function handleAnswerSubmitted() {
 
     if (selectedOption === currentQuestion.correctAnswer) {
       STORE.score++;
-      $(optionContainerId).html(generateFeedbackHtml("correct"));
+      $(optionContainerId).html(generateFeedbackHtml('correct'));
     } else {
-      $(optionContainerId).html(generateFeedbackHtml("incorrect"));
+      $(optionContainerId).html(generateFeedbackHtml('incorrect'));
     }
     STORE.currentQuestion++;
     generateQuestionHtml();
@@ -269,7 +262,7 @@ function handleAnswerSubmitted() {
 $(handleAnswerSubmitted);
 
 function handleResetButton() {
-  $("main").on("reset", "#reset", () => {
+  $('main').on('reset', '#reset', () => {
     STORE.currentQuestion = 0;
     resetQuiz();
     render();
