@@ -52,6 +52,8 @@ const STORE = {
   score: 0
 };
 
+let currentQuestion = STORE.questions[STORE.questionNumber];
+
 function generateStartScreenHtml() {
   return `
   <div class="start-screen">
@@ -95,11 +97,6 @@ function generateAnswersHtml() {
 }
 
 function generateQuestionHtml() {
-  // what question are we on
-  // STORE.questionNumber
-  // how do we grab that question?
-  let currentQuestion = STORE.questions[STORE.questionNumber];
-  //$("main").text(STORE.questionTitle);
   return `
   <form id="question-form" class="question-form">
   <fieldset class="fieldset">
@@ -146,9 +143,9 @@ function generateResultsScreen() {
   </form>
   </body>
   `;
-} //how come all the html isnt prettier?
+} 
 
-function generateFeedbackHtml() {
+function generateFeedbackHtml(git ) {
   let correctAnswer = STORE.questions[STORE.questionNumber].correctAnswer;
   let html = '';
   if (answerStatus === 'correct') {
@@ -169,10 +166,9 @@ function generateFeedbackHtml() {
 
 // Rendering functions
 function renderQuestionText() {
-  let question = STORE.questions[currentQuestion];
   $('main').text(questionTitle);
   $('main').html('');
-  for (var i = 0; i < STORE.question.answers.length; i++) {
+  for (var i = 0; i < STORE.currentQuestion.answers.length; i++) {
     $('main').closest(`
     <li id="${i}">${question.answers[i]}</li>`);
   }
@@ -240,14 +236,12 @@ function handleAnswerSubmitted() {
   $('main').on('submit', '#question-form', function(event) {
     event.preventDefault();
     console.log('submitted');
-    const currentQuestion = STORE.questions[STORE.questionNumber];
     // Retrieve answer identifier of user-checked radio btn
     let selectedOption = $('input[name=options]:checked').val();
     console.log(selectedOption);
     let optionContainerId = `#option-container-${currentQuestion.answers.findIndex(
       i => i === selectedOption
     )}`;  
-    console.log(optionContainerId);
     // Perform check: User answer === Correct answer?
     if (selectedOption === currentQuestion.correctAnswer) {
       STORE.score++;

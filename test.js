@@ -52,6 +52,8 @@ const STORE = {
   score: 0
 };
 
+let currentQuestion = STORE.questions[STORE.questionNumber];
+
 function generateStartScreenHtml() {
   return `
   <div class="start-screen">
@@ -93,7 +95,7 @@ function generateAnswersHtml() {
 }
 
 function generateQuestionHtml() {
-  let currentQuestion = STORE.questions[STORE.questionNumber];
+  //let currentQuestion = STORE.questions[STORE.questionNumber];
   return `
   <form id="question-form" class="question-form">
   <fieldset class="fieldset">
@@ -143,7 +145,7 @@ function generateResultsScreen() {
 } //how come all the html isnt prettier?
 
 function generateFeedbackHtml() {
-  let currentQuestion = STORE.questions[STORE.questionNumber];
+  //let currentQuestion = STORE.questions[STORE.questionNumber];
   let correct = currentQuestion.answers.correctAnswer;
   let answerStatus = $('input[name=options]:checked').val();
   console.log(currentQuestion);
@@ -169,7 +171,7 @@ function generateFeedbackHtml() {
 
 // Rendering functions
 function renderQuestionText() {
-  let question = STORE.questions[currentQuestion];
+  //let question = STORE.questions[currentQuestion];
   $('main').text(questionTitle);html += generateQuestionHtml();
   $('main').html('');
   for (var i = 0; i < STORE.question.answers.length; i++) {
