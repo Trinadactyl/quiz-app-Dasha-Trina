@@ -4,7 +4,7 @@ const STORE = {
     {
       question: 'Who was the first female fashion designer?',
       answers: [
-        'Jennifer anniston',
+        'Jennifer Aniston',
         'Coco Chanel',
         'Ruth Bader Ginsberg',
         'Hillary Clinton'
@@ -95,16 +95,22 @@ function generateAnswersHtml() {
 function generateQuestionHtml() {
   let currentQuestion = STORE.questions[STORE.questionNumber];
   return `
+  <form id="question-form" class="question-form">
+  <fieldset class="fieldset">
   <div class="question">
   <h2>${currentQuestion.question}</h2>
-  ${generateAnswersHtml()}
   </div>
   <div class="answers">
+  ${generateAnswersHtml()}
   </div>
   <p>
   <button type="submit-button" id="submit-button"
   tabindex="5">Submit</button>
+  <button type="next-question-button" id="next-question-button"
+  tabindex="6">Next</button>
   </p>
+  </fieldset>
+  </form>
   `;
 }
 
@@ -137,15 +143,17 @@ function generateResultsScreen() {
 } //how come all the html isnt prettier?
 
 function generateFeedbackHtml() {
-  let correctAnswer = STORE.questions[STORE.questionNumber].correctAnswer;
+  let correctAnswer = STORE.questions[STORE.correctAnswer];
+  let answerStatus = $('input[name=options]:checked').val();
+  console.log(answerStatus);
+  console.log(correctAnswer);
   let html = '';
-  if (answerStatus === 'correct') {
+  if (answerStatus === correctAnswer) {
     html = `
     <div class="right-answer">Correct!</div>
     `;
     STORE.score++;
-  } else answerStatus === 'incorrect';
-  {
+  } else {
     html = `
     <div class="wrong-answer">Sorry! That's wrong...
     <p><b>the correct answer is:
@@ -153,6 +161,7 @@ function generateFeedbackHtml() {
     </div>
     `;
   }
+  return html;
 }
 
 // Rendering functions
@@ -193,7 +202,7 @@ function handleStartClick() {
   });
 }
 function handleNextQuestion() {
-  $('main').click('#submit-button', function(event) {
+  $('main').on('click','#next-question-button', function(event) {
     event.preventDefault();
     STORE.questionNumber++;
     render();
@@ -201,32 +210,30 @@ function handleNextQuestion() {
   });
 }
 
-//do i need a next button? submit should do the trick?
 
-// function handleAnswerSubmitted() {
-//   $('main').on('submit', '#question-form', function(event) {
-//     event.preventDefault();
-//     console.log('submitted');
-//     const currentQuestion = STORE.questions[STORE.currentQuestion];
+function handleAnswerSubmitted() {
+  $('main').on('submit', '#question-form', function(event) {
+    event.preventDefault();
+    console.log('submitted');
+    const currentQuestion = STORE.questions[STORE.questionNumber];
 
-//     // Retrieve answer identifier of user-checked radio btn
-//     let selectedOption = $('input[name=options]:checked').val();
-//     let optionContainerId = `#option-container-${currentQuestion.answers.findIndex(
-//       i => i === selectedOption
-//     )}`;
-//     // Perform check: User answer === Correct answer?
+    // Retrieve answer identifier of user-checked radio btn
+    let selectedOption = $('input[name=options]:checked').val();
+    let optionContainerId = `#option-container-${currentQuestion.answers.findIndex(
+      i => i === selectedOption
+    )}`;
+    // Perform check: User answer === Correct answer?
 
-//     if (selectedOption === currentQuestion.correctAnswer) {
-//       STORE.score++;
-//       $(optionContainerId).html(generateFeedbackHtml('correct'));
-//     } else {
-//       $(optionContainerId).html(generateFeedbackHtml('incorrect'));
-//     }
-//     STORE.currentQuestion++;
-//     generateQuestionHtml();
-//   });
-// }
-// $(handleAnswerSubmitted);
+    if (selectedOption === currentQuestion.correctAnswer) {
+      STORE.score++;
+      $(optionContainerId).html(generateFeedbackHtml());
+    } else {
+      $(optionContainerId).html(generateFeedbackHtml());
+    }
+    STORE.currentQuestion++;
+    generateQuestionHtml();
+  });
+}
 
 function handleResetButton() {
   $('main').on('reset', '#reset', () => {
@@ -240,7 +247,7 @@ function handleQuizApp() {
   render();
   handleStartClick();
   handleNextQuestion();
-  //handleAnswerSubmitted();
+  handleAnswerSubmitted();
   handleResetButton();
 }
 

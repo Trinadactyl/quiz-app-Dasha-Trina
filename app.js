@@ -4,7 +4,7 @@ const STORE = {
     {
       question: 'Who was the first female fashion designer?',
       answers: [
-        'Jennifer anniston',
+        'Jennifer Aniston',
         'Coco Chanel',
         'Ruth Bader Ginsberg',
         'Hillary Clinton'
