@@ -143,10 +143,13 @@ function generateResultsScreen() {
 } //how come all the html isnt prettier?
 
 function generateFeedbackHtml() {
-  let correctAnswer = STORE.questions[STORE.correctAnswer];
+  let currentQuestion = STORE.questions[STORE.questionNumber];
+  let correct = currentQuestion.answers.correctAnswer;
   let answerStatus = $('input[name=options]:checked').val();
+  console.log(currentQuestion);
   console.log(answerStatus);
-  console.log(correctAnswer);
+  console.log(correct);
+  
   let html = '';
   if (answerStatus === correctAnswer) {
     html = `
@@ -216,24 +219,23 @@ function handleAnswerSubmitted() {
     event.preventDefault();
     console.log('submitted');
     const currentQuestion = STORE.questions[STORE.questionNumber];
-
     // Retrieve answer identifier of user-checked radio btn
     let selectedOption = $('input[name=options]:checked').val();
     let optionContainerId = `#option-container-${currentQuestion.answers.findIndex(
       i => i === selectedOption
-    )}`;
+    )}`;  
     // Perform check: User answer === Correct answer?
-
     if (selectedOption === currentQuestion.correctAnswer) {
       STORE.score++;
-      $(optionContainerId).html(generateFeedbackHtml());
+      $(optionContainerId).html(generateFeedbackHtml('correct'));
     } else {
-      $(optionContainerId).html(generateFeedbackHtml());
+      $(optionContainerId).html(generateFeedbackHtml('incorrect'));
     }
     STORE.currentQuestion++;
     generateQuestionHtml();
   });
 }
+
 
 function handleResetButton() {
   $('main').on('reset', '#reset', () => {
