@@ -95,3 +95,54 @@ div.wrong-answer {
 div {
   border-style: none;
 }
+
+@media screen and (min-width: 320px) and (max-width: 768px) {
+  div.answers {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: flex-start;
+    padding: 0;
+  }
+  div.question {
+    flex-direction: row;
+    padding: 0;
+    text-align: left;
+    justify-content: start;
+  }
+}
+
+@media screen and (min-width: 320px) {
+  div.answers {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: flex-start;
+    padding: 0;
+  }
+  div.question {
+    flex-direction: row;
+    padding: 0;
+    text-align: left;
+    justify-content: start;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 768px) {
+  div.answers {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: flex-start;
+    padding: 0;
+  }
+  div.question {
+    flex-direction: row;
+    padding: 0;
+    text-align: left;
+    justify-content: start;
+  }
+  #question-form {
+    margin: 2px;
+  }
+}
