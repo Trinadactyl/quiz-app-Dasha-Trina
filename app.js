@@ -22,8 +22,13 @@ const STORE = {
       correctAnswer: 2
     },
     {
-      question: "What type of hat do cowboys typically wear?",
-      answers: ["Flapper", "Dorky hat", "Postman", "Cowboy hat"],
+      question: "What does 'OTK' stand for in OTK boots?",
+      answers: [
+        "Off the knife",
+        "Over the kounter",
+        "Oh that kangaroo",
+        "Over the knee"
+      ],
       correctAnswer: 3
     },
     {
@@ -52,14 +57,13 @@ const STORE = {
   score: 0
 };
 
-let currentQuestion = STORE.questions[STORE.questionNumber];
-
 function generateStartScreenHtml() {
   return `
   <div class="start-screen">
-    <p>This quiz will test your fashion knowledge.
-      When it is over you will be a fashion... monger!
-    </p>
+  <h2>
+    <p>This prep course will prepare you for a "career" as a fashion blogger!
+
+    </p></h2>
     <button type="button" id="start">Start Quiz</button>
   </div>
   `;
@@ -97,6 +101,7 @@ function generateAnswersHtml() {
 }
 
 function generateQuestionHtml() {
+  let currentQuestion = STORE.questions[STORE.questionNumber];
   return `
   <form id="question-form" class="question-form">
   <fieldset class="fieldset">
@@ -115,21 +120,9 @@ function generateQuestionHtml() {
   `;
 }
 
-function generateAnswerList(answers) {
-  return `
-  <div><ul>
-    <li>answer1</li>
-    <li>answer2</li>
-    <li>answer3</li>
-    <li>answer4</li>
-  </ul>
-  </div>
-  `;
-}
-
 function generateResultsScreen() {
   return `
-  <body background="https://www.onlinebooksreview.com/uploads/blog_images/2019/02/10_vector_fashion_girls_design_elements_set_575174.jpg">
+  
   <div class="results">
   <form id="reset-quiz">
   <fieldset>
@@ -148,12 +141,12 @@ function generateFeedbackHtml(answerStatus) {
   let html = "";
   if (answerStatus === "correct") {
     html = `
-    <div class="right-answer">Correct!</div>
+    <div class="right-answer">You got it, babe!</div>
     `;
   } else {
     html = `
-    <div class="wrong-answer">Sorry! That's wrong...
-    <p>the correct answer is:
+    <div class="wrong-answer">are you serious right now...
+    <p>It's actually
     ${STORE.questions[STORE.questionNumber].answers[correctAnswer]}</p>
     </div>
     `;
@@ -197,6 +190,7 @@ function renderQuestionText() {
 render the page based upon the state of the STORE*/
 
 function render() {
+  let currentQuestion = STORE.questions[STORE.questionNumber];
   let html = "";
 
   if (STORE.quizStarted === false) {
@@ -215,7 +209,6 @@ function render() {
 
 function handleStartClick() {
   $("main").on("click", "#start", function(event) {
-    //console.log("submitted");
     event.preventDefault();
     STORE.quizStarted = true;
     render();
@@ -229,12 +222,10 @@ function handleNextQuestion() {
   });
 }
 
-//do i need a next button? submit should do the trick?
-
 function handleAnswerSubmitted() {
   $("main").on("submit", "#question-form", function(event) {
     event.preventDefault();
-    console.log("submitted");
+
     // Retrieve answer identifier of user-checked radio btn
     let selectedOption = $("input[name=options]:checked").val();
 
@@ -271,18 +262,3 @@ function handleQuizApp() {
 }
 
 $(handleQuizApp);
-
-/**
- *
- * Technical requirements:
- *
- * Your app should include a render() function, that regenerates the view each time the store is updated.
- * See your course material, consult your instructor, and reference the slides for more details.
- *
- * NO additional HTML elements should be added to the index.html file.
- *
- * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
- *
- * SEE BELOW FOR THE CATEGORIES OF THE TYPES OF FUNCTIONS YOU WILL BE CREATING 👇
- *
- */
