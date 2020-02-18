@@ -9,7 +9,7 @@ const STORE = {
         'Ruth Bader Ginsberg',
         'Hillary Clinton'
       ],
-      correctAnswer: 1
+      correctAnswer: 'Coco Chanel'
     },
     {
       question: 'Who is a famed shoe designer featured in Sex and the City?',
@@ -19,12 +19,12 @@ const STORE = {
         'Manolo Blahnik',
         'Brad Pitt'
       ],
-      correctAnswer: 2
+      correctAnswer: 'Manolo Blahnik'
     },
     {
       question: 'What type of hat do cowboys typically wear?',
       answers: ['Flapper', 'Dorky hat', 'Postman', 'Cowboy hat'],
-      correctAnswer: 3
+      correctAnswer: 'Cowboy Hat'
     },
     {
       question: 'What shoe designer created the red soled shoe?',
@@ -34,7 +34,7 @@ const STORE = {
         'Steven Tyler',
         'Gene Simmons'
       ],
-      correctAnswer: 0
+      correctAnswer: 'Christian Louboutin'
     },
     {
       question: 'What is widely considered the fashion capital of the world?',
@@ -44,7 +44,7 @@ const STORE = {
         'Paris, France',
         'North Siberia, Russia'
       ],
-      correctAnswer: 2
+      correctAnswer: 'Paris France'
     }
   ],
   quizStarted: false,
@@ -53,6 +53,7 @@ const STORE = {
 };
 
 let currentQuestion = STORE.questions[STORE.questionNumber];
+//let answer = currentQuestion.questions.answers[correctAnswer];
 
 function generateStartScreenHtml() {
   return `
@@ -95,7 +96,6 @@ function generateAnswersHtml() {
 }
 
 function generateQuestionHtml() {
-  //let currentQuestion = STORE.questions[STORE.questionNumber];
   return `
   <form id="question-form" class="question-form">
   <fieldset class="fieldset">
@@ -145,15 +145,13 @@ function generateResultsScreen() {
 } //how come all the html isnt prettier?
 
 function generateFeedbackHtml() {
-  //let currentQuestion = STORE.questions[STORE.questionNumber];
-  let correct = currentQuestion.answers.correctAnswer;
-  let answerStatus = $('input[name=options]:checked').val();
+  let selectedAnswer = $('input[name=options]:checked').val();
   console.log(currentQuestion);
-  console.log(answerStatus);
-  console.log(correct);
+  console.log(selectedAnswer);
+  console.log(currentQuestion.correctAnswer);
   
   let html = '';
-  if (answerStatus === correctAnswer) {
+  if (selectedAnswer === currentQuestion.correctAnswer) {
     html = `
     <div class="right-answer">Correct!</div>
     `;
@@ -165,13 +163,13 @@ function generateFeedbackHtml() {
     ${STORE.correctAnswer}</b></p>
     </div>
     `;
+    console.log('generating feedback');
   }
   return html;
 }
 
 // Rendering functions
 function renderQuestionText() {
-  //let question = STORE.questions[currentQuestion];
   $('main').text(questionTitle);html += generateQuestionHtml();
   $('main').html('');
   for (var i = 0; i < STORE.question.answers.length; i++) {
@@ -211,7 +209,7 @@ function handleNextQuestion() {
     event.preventDefault();
     STORE.questionNumber++;
     render();
-    console.log('submit was clicked');
+    console.log('next was clicked');
   });
 }
 
@@ -220,14 +218,13 @@ function handleAnswerSubmitted() {
   $('main').on('submit', '#question-form', function(event) {
     event.preventDefault();
     console.log('submitted');
-    const currentQuestion = STORE.questions[STORE.questionNumber];
     // Retrieve answer identifier of user-checked radio btn
-    let selectedOption = $('input[name=options]:checked').val();
+    let selectedAnswer = $('input[name=options]:checked').val();
     let optionContainerId = `#option-container-${currentQuestion.answers.findIndex(
-      i => i === selectedOption
+      i => i === selectedAnswer
     )}`;  
     // Perform check: User answer === Correct answer?
-    if (selectedOption === currentQuestion.correctAnswer) {
+    if (selectedAnswer === currentQuestion.correctAnswer) {
       STORE.score++;
       $(optionContainerId).html(generateFeedbackHtml('correct'));
     } else {
@@ -235,6 +232,7 @@ function handleAnswerSubmitted() {
     }
     STORE.currentQuestion++;
     generateQuestionHtml();
+    console.log('handling submitted answer');
   });
 }
 
