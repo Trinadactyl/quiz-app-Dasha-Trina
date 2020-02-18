@@ -18,6 +18,7 @@
 }
 #next-question-button {
   background-color: #bd96a5;
+  display: none;
 }
 
 #submit-button {

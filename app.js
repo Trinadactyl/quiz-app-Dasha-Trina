@@ -1,48 +1,48 @@
-'use strict';
+"use strict";
 const STORE = {
   questions: [
     {
-      question: 'Who was the first female fashion designer?',
+      question: "Who was the first female fashion designer?",
       answers: [
-        'Jennifer Aniston',
-        'Coco Chanel',
-        'Ruth Bader Ginsberg',
-        'Hillary Clinton'
+        "Jennifer Aniston",
+        "Coco Chanel",
+        "Ruth Bader Ginsberg",
+        "Hillary Clinton"
       ],
       correctAnswer: 1
     },
     {
-      question: 'Who is a famed shoe designer featured in Sex and the City?',
+      question: "Who is a famed shoe designer featured in Sex and the City?",
       answers: [
-        'Christian Lacroix',
-        'John Leguizamo',
-        'Manolo Blahnik',
-        'Brad Pitt'
+        "Christian Lacroix",
+        "John Leguizamo",
+        "Manolo Blahnik",
+        "Brad Pitt"
       ],
       correctAnswer: 2
     },
     {
-      question: 'What type of hat do cowboys typically wear?',
-      answers: ['Flapper', 'Dorky hat', 'Postman', 'Cowboy hat'],
+      question: "What type of hat do cowboys typically wear?",
+      answers: ["Flapper", "Dorky hat", "Postman", "Cowboy hat"],
       correctAnswer: 3
     },
     {
-      question: 'What shoe designer created the red soled shoe?',
+      question: "What shoe designer created the red soled shoe?",
       answers: [
-        'Christian Louboutin',
-        'Jonathan Taylor Thomas',
-        'Steven Tyler',
-        'Gene Simmons'
+        "Christian Louboutin",
+        "Jonathan Taylor Thomas",
+        "Steven Tyler",
+        "Gene Simmons"
       ],
       correctAnswer: 0
     },
     {
-      question: 'What is widely considered the fashion capital of the world?',
+      question: "What is widely considered the fashion capital of the world?",
       answers: [
-        'Juneau, Alaska',
-        'Mexico City',
-        'Paris, France',
-        'North Siberia, Russia'
+        "Juneau, Alaska",
+        "Mexico City",
+        "Paris, France",
+        "North Siberia, Russia"
       ],
       correctAnswer: 2
     }
@@ -80,13 +80,13 @@ function generateQuestionNumberandScoreHtml() {
 
 function generateAnswersHtml() {
   const answersArray = STORE.questions[STORE.questionNumber].answers;
-  let answersHtml = '';
+  let answersHtml = "";
   let i = 0;
 
   answersArray.forEach((answer, i) => {
     answersHtml += `
     <div id="option-container-${i}">
-    <input type="radio" name="options" id="option${i + 1}" value= "${answer}
+    <input type="radio" name="options" id="option${i + 1}" value= "${i}
     " tabindex ="${i + 1}" required>
     <label for="option${i + 1}"> ${answer}</label>
     </div>
@@ -107,10 +107,8 @@ function generateQuestionHtml() {
   ${generateAnswersHtml()}
   </div>
   <p>
-  <button type="submit-button" id="submit-button"
+  <button type="submit" id="submit-button"
   tabindex="5">Submit</button>
-  <button type="next-question-button" id="next-question-button"
-  tabindex="6">Next</button>
   </p>
   </fieldset>
   </form>
@@ -143,33 +141,34 @@ function generateResultsScreen() {
   </form>
   </body>
   `;
-} 
+}
 
-function generateFeedbackHtml(git ) {
+function generateFeedbackHtml(answerStatus) {
   let correctAnswer = STORE.questions[STORE.questionNumber].correctAnswer;
-  let html = '';
-  if (answerStatus === 'correct') {
+  let html = "";
+  if (answerStatus === "correct") {
     html = `
     <div class="right-answer">Correct!</div>
     `;
-    STORE.score++;
-  } else answerStatus === 'incorrect';
-  {
+  } else {
     html = `
     <div class="wrong-answer">Sorry! That's wrong...
-    <p><b>the correct answer is:
-    ${STORE.correctAnswer}</b></p>
+    <p>the correct answer is:
+    ${STORE.questions[STORE.questionNumber].answers[correctAnswer]}</p>
     </div>
     `;
   }
+  html += `<button id="next-question-button"
+  tabindex="6">Next</button>`;
+  return html;
 }
 
 // Rendering functions
 function renderQuestionText() {
-  $('main').text(questionTitle);
-  $('main').html('');
+  $("main").text(questionTitle);
+  $("main").html("");
   for (var i = 0; i < STORE.currentQuestion.answers.length; i++) {
-    $('main').closest(`
+    $("main").closest(`
     <li id="${i}">${question.answers[i]}</li>`);
   }
 }
@@ -198,24 +197,24 @@ function renderQuestionText() {
 render the page based upon the state of the STORE*/
 
 function render() {
-  let html = '';
+  let html = "";
 
   if (STORE.quizStarted === false) {
-    $('main').html(generateStartScreenHtml());
+    $("main").html(generateStartScreenHtml());
     return;
   } else if (STORE.questionNumber < STORE.questions.length) {
     html = generateQuestionNumberandScoreHtml();
     html += generateQuestionHtml();
-    $('main').html(html);
+    $("main").html(html);
   } else {
-    $('main').html(generateResultsScreen());
+    $("main").html(generateResultsScreen());
   }
 }
 
 // Event handlers
 
 function handleStartClick() {
-  $('main').on('click', '#start', function(event) {
+  $("main").on("click", "#start", function(event) {
     //console.log("submitted");
     event.preventDefault();
     STORE.quizStarted = true;
@@ -223,7 +222,7 @@ function handleStartClick() {
   });
 }
 function handleNextQuestion() {
-  $('main').on('click','#next-question-button', function(event) {
+  $("main").on("click", "#next-question-button", function(event) {
     event.preventDefault();
     STORE.questionNumber++;
     render();
@@ -233,32 +232,32 @@ function handleNextQuestion() {
 //do i need a next button? submit should do the trick?
 
 function handleAnswerSubmitted() {
-  $('main').on('submit', '#question-form', function(event) {
+  $("main").on("submit", "#question-form", function(event) {
     event.preventDefault();
-    console.log('submitted');
+    console.log("submitted");
     // Retrieve answer identifier of user-checked radio btn
-    let selectedOption = $('input[name=options]:checked').val();
-    console.log(selectedOption);
-    let optionContainerId = `#option-container-${currentQuestion.answers.findIndex(
-      i => i === selectedOption
-    )}`;  
+    let selectedOption = $("input[name=options]:checked").val();
+
     // Perform check: User answer === Correct answer?
-    if (selectedOption === currentQuestion.correctAnswer) {
+    if (
+      parseInt(selectedOption) ===
+      STORE.questions[STORE.questionNumber].correctAnswer
+    ) {
       STORE.score++;
-      $(optionContainerId).html(generateFeedbackHtml('correct'));
+      $("main").html(generateFeedbackHtml("correct"));
     } else {
-      $(optionContainerId).html(generateFeedbackHtml('incorrect'));
+      $("main").html(generateFeedbackHtml("incorrect"));
     }
-    STORE.currentQuestion++;
-    generateQuestionHtml();
+    $("#next-question-button").show();
+    $("#submit-button").hide();
   });
 }
 
-
 function handleResetButton() {
-  $('main').on('reset', '#reset', () => {
-    STORE.currentQuestion = 0;
-    resetQuiz();
+  $("main").on("click", "#reset", () => {
+    STORE.questionNumber = 0;
+    STORE.score = 0;
+    STORE.quizStarted = false;
     render();
   });
 }
